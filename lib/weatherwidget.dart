@@ -69,20 +69,20 @@ class WeatherState extends State<WeatherWidget> {
                 margin: EdgeInsets.only(top: 100.0),
                 child: Column(
                   children: <Widget>[
-                    Text(weather?.Temperature,
+                    Text(weather?.temperature,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 80.0,
                     ),),
                     Text(
-                      weather?.Condition,
+                      weather?.condition,
                       style: TextStyle(
                         color:Colors.white,
                         fontSize: 50.0
                       ),
                     ),
                     Text(
-                      weather?.Humidity,
+                      weather?.humidity,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
