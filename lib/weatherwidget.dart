@@ -13,11 +13,13 @@ class WeatherWidget extends StatefulWidget {
 
 class WeatherState extends State<WeatherWidget> {
 
+  WeatherData weather = WeatherData.empty();
+
   WeatherState(){
     _getWeather();
   }
 
-  WeatherData weather = WeatherData.empty();
+
 
   void _getWeather() async{
     WeatherData data = await _fetchWeatherData();
@@ -27,14 +29,14 @@ class WeatherState extends State<WeatherWidget> {
   }
 
   Future<WeatherData> _fetchWeatherData() async{
-      final response = await http.get('https://free-api.heweather.com/s6/weather/now?location=北京&key=20190211');
+      final response = await http.get('https://free-api.heweather.com/s6/weather/now?location=beijing&key=49737baf0eb147ae9b35ff744fc47a2b');
+      //注意此处的key不是key名称，而是密钥
       if(response.statusCode==200){
         return WeatherData.fromJson(json.decode(response.body));
       }
       else{
         print(response.statusCode);
-        return WeatherData.fromJson(json.decode(response.body));
-        //return WeatherData.empty();
+        return WeatherData.empty();
       }
   }
 
@@ -85,6 +87,13 @@ class WeatherState extends State<WeatherWidget> {
                         color: Colors.white,
                         fontSize: 20,
                       ),),
+                      Text(
+                        weather?.updatetime,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                      ),
                   ],
                 ),
               )
