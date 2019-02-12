@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:relax_weather/weatherdata.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class WeatherWidget extends StatefulWidget {
   @override
-  _WeatherWidgetState createState() => _WeatherWidgetState();
+  State<StatefulWidget> createState(){
+    return WeatherState();
+  }
 }
 
-class _WeatherWidgetState extends State<WeatherWidget> {
+class WeatherState extends State<WeatherWidget> {
+
+  WeatherState(){
+    _getWeather();
+  }
+
+  WeatherData weather = WeatherData.empty();
+
+  void _getWeather() async{
+    WeatherData data = await _fetchWeatherData();
+    setState(() {
+     weather = data; 
+    });
+  }
+
+  Future<WeatherData> _fetchWeatherData() async{
+      final response = await http.get('https://free-api.heweather.com/s6/weather/now?location=北京&key=20190211');
+      if(response.statusCode==200){
+        return WeatherData.fromJson(json.decode(response.body));
+      }
+      else{
+        print(response.statusCode);
+        return WeatherData.fromJson(json.decode(response.body));
+        //return WeatherData.empty();
+      }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,20 +67,20 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                 margin: EdgeInsets.only(top: 100.0),
                 child: Column(
                   children: <Widget>[
-                    Text('20',
+                    Text(weather?.Temperature,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 80.0,
                     ),),
                     Text(
-                      "晴",
+                      weather?.Condition,
                       style: TextStyle(
                         color:Colors.white,
                         fontSize: 50.0
                       ),
                     ),
                     Text(
-                      "湿度 45%",
+                      weather?.Humidity,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
