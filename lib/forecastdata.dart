@@ -1,5 +1,5 @@
 class ForecastData{
-  String date ='2019';
+  String date;
   String tmp_max;
   String tmp_min;
   String con_day;

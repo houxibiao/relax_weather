@@ -16,9 +16,9 @@ class WeatherWidget extends StatefulWidget {
 class WeatherState extends State<WeatherWidget> {
   WeatherData weather = WeatherData.empty();
   WeatherData weathernow_data = WeatherData.empty();
-  List<ForecastData> forecastlist =
-      new List(3); //创建指定长度的列表，因为build函数先于_getforecast()执行，所以build无法预先获取其长度
-  List<ForecastData> forecastdata = new List(3);
+  List<ForecastData> forecastlist = new List(3);//创建指定长度的列表，因为build函数先于_getforecast()执行，所以build无法预先获取其长度
+  List<ForecastData> forecastdata =
+      new List<ForecastData>.filled(3, ForecastData('-', '-', '-', '-', '-'));
 
   WeatherState() {
     //构造器
@@ -58,7 +58,6 @@ class WeatherState extends State<WeatherWidget> {
             data['tmp_min'], data['cond_txt_d'], data['cond_txt_n']);
         datalist.add(forecastData);
       }
-      print(datalist[0].tmp_max);
       return datalist;
     } else {
       print("can't get the forecast data. The error code is" +
@@ -69,7 +68,6 @@ class WeatherState extends State<WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('the build is running');
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
