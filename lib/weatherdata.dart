@@ -9,12 +9,16 @@ class WeatherData{
 
   WeatherData({this.condition,this.temperature,this.humidity,this.updatetime});
 
+ 
+
   factory WeatherData.fromJson(Map<String,dynamic> json){
+    DateTime datenow = new DateTime.now();
     return WeatherData(
       condition: json['HeWeather6'][0]['now']['cond_txt'],
       temperature: json['HeWeather6'][0]['now']['tmp'],
       humidity: "湿度"+json['HeWeather6'][0]['now']['hum']+"%",
-      updatetime: "更新时间"+json['HeWeather6'][0]['update']['loc'],
+      updatetime:  datenow.toString(),//"更新时间"+json['HeWeather6'][0]['update']['loc'],
+
     );
   }
 
