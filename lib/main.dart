@@ -5,6 +5,9 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+  List<String> citylist = ['北京','文水','海淀','上海'];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: Colors.blue,
       ),
-      home: WeatherWidget(),
+      home: WeatherWidget('文水'),
     );
   }
 }

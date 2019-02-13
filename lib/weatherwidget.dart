@@ -7,21 +7,31 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'forecastdata.dart';
 
 class WeatherWidget extends StatefulWidget {
+
+  String cityname;
+  int _currentcityindex = 0;
+
+  WeatherWidget(this.cityname);
+
   @override
   State<StatefulWidget> createState() {
-    return WeatherState();
+    return WeatherState(this.cityname);
   }
 }
 
 class WeatherState extends State<WeatherWidget> {
+
+  String cityname;
+
   WeatherData weather = WeatherData.empty();
   WeatherData weathernow_data = WeatherData.empty();
   List<ForecastData> forecastlist = new List(3);//创建指定长度的列表，因为build函数先于_getforecast()执行，所以build无法预先获取其长度
   List<ForecastData> forecastdata =
       new List<ForecastData>.filled(3, ForecastData('-', '-', '-', '-', '-'));
 
-  WeatherState() {
+  WeatherState(String cityname) {
     //构造器
+    this.cityname = cityname;
     _getWeather();
   }
 
@@ -37,7 +47,7 @@ class WeatherState extends State<WeatherWidget> {
 
   Future<WeatherData> _fetchWeatherData() async {
     final response = await http.get(
-        'https://free-api.heweather.com/s6/weather/now?location=beijing&key=49737baf0eb147ae9b35ff744fc47a2b');
+        'https://free-api.heweather.com/s6/weather/now?location=${this.cityname}&key=49737baf0eb147ae9b35ff744fc47a2b');
     //注意此处的key不是key名称，而是密钥
     if (response.statusCode == 200) {
       return WeatherData.fromJson(json.decode(response.body));
@@ -50,7 +60,7 @@ class WeatherState extends State<WeatherWidget> {
   Future<List<ForecastData>> _fetchForecastData() async {
     List<ForecastData> datalist = new List<ForecastData>();
     final reponse2 = await http.get(
-        'https://free-api.heweather.net/s6/weather/forecast?location=beijing&key=49737baf0eb147ae9b35ff744fc47a2b');
+        'https://free-api.heweather.net/s6/weather/forecast?location=${this.cityname}&key=49737baf0eb147ae9b35ff744fc47a2b');
     if (reponse2.statusCode == 200) {
       Map<String, dynamic> result = json.decode(reponse2.body);
       for (dynamic data in result['HeWeather6'][0]['daily_forecast']) {
@@ -90,7 +100,7 @@ class WeatherState extends State<WeatherWidget> {
                       width: double.infinity,
                       margin: EdgeInsets.only(top: 48.0),
                       child: Text(
-                        '北京',
+                        '${this.cityname}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
