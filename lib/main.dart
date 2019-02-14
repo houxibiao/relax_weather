@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: Colors.blue,
       ),
-      home: WeatherWidget('文水'),
+      home: WeatherWidget(citylist),
     );
   }
 }
